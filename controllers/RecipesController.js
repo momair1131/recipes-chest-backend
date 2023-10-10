@@ -14,7 +14,7 @@ const allRecipes = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: error,
+      error,
     });
   }
 };
@@ -28,7 +28,7 @@ const delRecipe = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: error,
+      error,
     });
   }
 };
