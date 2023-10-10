@@ -64,18 +64,22 @@ const createRecipe = async (req, res) => {
 };
 
 const showRecipe = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "no such recipe" });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).json({ error: "no such recipe" });
+    }
+    const recipe = await Recipes.findById(id);
+
+    if (!recipe) {
+      res.status(404).json({ error: "no such recipe found" });
+    }
+
+    res.status(200).json(recipe);
+  } catch (error) {
+    console.log(error);
   }
-  const recipe = await Recipes.findById(id);
-
-  if (!recipe) {
-    res.status(404).json({ error: "no such recipe found" });
-  }
-
-  res.status(200).json(recipe);
 };
 
 module.exports = {
