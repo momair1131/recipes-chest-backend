@@ -23,12 +23,6 @@ router.delete("/:id", delRecipe);
 // Update Route
 router.put("/:id", updateRecipe);
 
-// Create Route
-// router.post("/:id", () => {});
-
-// Edit Route
-// router.get("/:id/edit", () => {});
-
 // Show Route
 router.get("/:id", showRecipe);
 

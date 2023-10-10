@@ -19,11 +19,6 @@ const allRecipes = async (req, res) => {
   }
 };
 
-// New function
-// const newRecipes = (req, res) => {
-//     res.redirect("/")
-// };
-
 // Delete function
 const delRecipe = async (req, res) => {
   try {
@@ -67,20 +62,6 @@ const createRecipe = async (req, res) => {
     });
   }
 };
-
-// Show function
-// const showRecipe = async (req, res) => {
-//   try {
-//     const { id } = req.param;
-//     const recipe = await Recipes.findById(id);
-//     return res.status(200).json({ success: true, recipe });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       error: error,
-//     });
-//   }
-// };
 
 const showRecipe = async (req, res) => {
   const { id } = req.params;
