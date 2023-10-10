@@ -11,7 +11,7 @@ app.use(cors());
 
 mongoose.set("debug", true); // display mongoose query inside log
 
-mongoose.connect(mongoURI);
+mongoose.connect(mongoURI, { useNewUrlParser: true });
 mongoose.connection.once("open", () => {
   console.log("connected to MongoDB");
 });
