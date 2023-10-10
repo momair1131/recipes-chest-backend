@@ -1,11 +1,13 @@
 // INDUCES = INDEX, NEW, DELETE, UPDATE, CREATE, EDIT, SHOW
 const Recipes = require("../models/RecipesModel");
+const express = require("express");
+const mongoose = require("mongoose");
 
 // Index fuction
 const allRecipes = async (req, res) => {
   try {
-    const recipes = await Recipes.find();
-    return res.status(200).json({
+    const recipes = await Recipes.find().sort({ createdAt: -1 });
+    res.status(200).json({
       success: true,
       recipes: recipes,
     });
@@ -25,7 +27,7 @@ const allRecipes = async (req, res) => {
 // Delete function
 const delRecipe = async (req, res) => {
   try {
-    const id = req.param.id;
+    const { id } = req.params;
     const recipe = await Recipes.findByIdAndRemove(id);
     return res.status(200).json({ success: true, recipe });
   } catch (error) {
@@ -39,14 +41,17 @@ const delRecipe = async (req, res) => {
 // Update function
 const updateRecipe = async (req, res) => {
   try {
-    const id = req.param.id;
-    const recipe = await Recipes.findByIdAndUpdate(id, req.body, { new: true }); // new= true display updated data
-    return res.status(200).json({ success: true, recipe });
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).json({ error: "no such recipe" });
+    }
+    const recipe = await Recipes.findByIdAndUpdate(id, req.body);
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    return res.status(200).send({ message: "Recipe updated successfully" });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: error,
-    });
+    console.log(error);
   }
 };
 
@@ -64,17 +69,32 @@ const createRecipe = async (req, res) => {
 };
 
 // Show function
+// const showRecipe = async (req, res) => {
+//   try {
+//     const { id } = req.param;
+//     const recipe = await Recipes.findById(id);
+//     return res.status(200).json({ success: true, recipe });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       error: error,
+//     });
+//   }
+// };
+
 const showRecipe = async (req, res) => {
-  try {
-    const id = req.param.id;
-    const recipe = await Recipes.findById(id);
-    return res.status(200).json({ success: true, recipe });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: error,
-    });
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(404).json({ error: "no such recipe" });
   }
+  const recipe = await Recipes.findById(id);
+
+  if (!recipe) {
+    res.status(404).json({ error: "no such recipe found" });
+  }
+
+  res.status(200).json(recipe);
 };
 
 module.exports = {

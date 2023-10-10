@@ -3,9 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT;
-
+const cors = require("cors");
 // // Global Configuration
 const mongoURI = process.env.MONGO_URI;
+
+app.use(cors());
 
 mongoose.set("debug", true); // display mongoose query inside log
 
