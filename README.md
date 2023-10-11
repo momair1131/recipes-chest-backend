@@ -45,10 +45,6 @@ Back-End :
 - Users can delete a recipe
 - Users can search for recipes by entering the ingredients they have available at home.
 
-## UI
-
-Application : ![Alt text](./public/UI.png/)
-
 ## Description
 
 This was the final project in the Software Engineering Bootcamp. The project's goal was to incorporate all the technologies learned during the Bootcamp and implement a full-stack CRUD application.
